@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Home from './HomeComponent';
 import Directory from './DirectoryComponent';
 import CampsiteInfo from './CampsiteinfoComponent';
 import { View, Platform } from 'react-native';
@@ -52,7 +53,7 @@ const MainNavigator = createDrawerNavigator(
     }
 );
 
-const AppNavigator = createAppContainer(DirectoryNavigator);
+const AppNavigator = createAppContainer(MainNavigator);
 
 class Main extends Component {
     render() {
