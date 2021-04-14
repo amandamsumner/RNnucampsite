@@ -3,6 +3,7 @@ import { Text, ScrollView, FlatList } from 'react-native';
 import { ListItem, Card } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import Loading from './LoadingComponent';
 
 const mapStateToProps = state => {
     return {
@@ -35,22 +36,43 @@ class About extends Component {
                     leftAvatar={{ source: {uri: baseUrl + item.image}}}
                 />
            );
+        };
+        
+        if (this.props.partners.isLoading) {
+            return (
+                <ScrollView>
+                    <Mission />                   
+                    <Card 
+                        title="Community Partners">
+                        <Loading />
+                    </Card>
+                </ScrollView>
+            );
         }
-       return (
-           <ScrollView>
-               <Card title="Our Mission">
-                   <Mission />
-               </Card>
-               <Card title="Community Partners">
-                    <FlatList 
+        if (this.props.partners.errMess) {
+            return (
+                <ScrollView>
+                    <Mission />
+                    <Card
+                        title='Community Partners'>
+                        <Text>{this.props.partners.errMess}</Text>
+                    </Card>
+                </ScrollView>
+            );
+        }
+        return (
+            <ScrollView>
+                <Mission />
+                <Card
+                    title='Community Partners'>
+                    <FlatList
                         data={this.props.partners.partners}
                         renderItem={renderPartner}
-                        keyExtractor={item => item.id.toString()}
+                        keyExtractor={item=>item.id.toString()}
                     />
-               </Card>
-           </ScrollView>
-       );
-   }
+                </Card>
+            </ScrollView>
+        );
+    }
 }
-
 export default connect(mapStateToProps)(About);
